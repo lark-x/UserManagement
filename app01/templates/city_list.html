@@ -1,0 +1,131 @@
+{% extends 'layout.html' %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <div class="container">
+        <div style="margin-bottom: 10px">
+            <input id="btnAdd" type="button" value="{{ add_title }}" class="btn btn-primary">
+        </div>
+
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
+                {{ title }}
+            </div>
+
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>名称</th>
+                    <th>Logo</th>
+                    <th>Logo地址</th>
+                    <th>人口</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for obj in queryset %}
+                    <tr>
+                        <th>{{ obj.id }}</th>
+                        <td>{{ obj.name }}</td>
+                        <td>
+                            <img src="/media/{{ obj.img }}" style="height: 60px;" alt="">
+                        </td>
+                        <td>
+                            <a href="/media/{{ obj.img }}" target="_blank">{{ obj.img }}</a>
+                        </td>
+                        <td>{{ obj.count }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="formAdd" name="form" method="post" enctype="multipart/form-data" novalidate>
+                        <div class="clearfix">
+                            {% for field in form %}
+                                <div class="col-xs-6" style="margin-bottom: 15px;">
+                                    <div class="form-group" style="position: relative;">
+                                        <label>{{ field.label }}</label>
+                                        {{ field }}
+                                        <span class="error-msg" style="color: red;position: absolute"></span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">取 消</button>
+                    <button id="btnSave" type="button" class="btn btn-primary">提 交</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+    <script type="text/javascript">
+        //let DELETE_ID;
+        $(function () {
+            bindBtnAddEvent();
+            bindBtnSaveEvent();
+        })
+
+        function bindBtnAddEvent() {
+            $('#btnAdd').click(function () {
+                // 清空对话框中的数据
+                $('#formAdd')[0].reset();
+                $('#myModalLabel').text('新建城市');
+                // 点击新建按钮,显示对话框
+                $('#myModal').modal('show');
+            });
+        }
+
+        function bindBtnSaveEvent() {
+            $("#btnSave").click(function () {
+                $(".error-msg").empty();
+                let formData = new FormData(document.querySelector("form"));
+                {#let file = $('#id_img')[0].files[0];#}
+                {#let name = $('#id_name').val();#}
+                {#let count = $('#id_count').val();#}
+
+                $.ajax({
+                    url: "/city/add/",
+                    type: "POST",
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    dataType: 'JSON',
+                    success: function (res) {
+                        if (res.status) {
+                            // alert("新增成功");
+                            {#location.reload();#}
+                            // 清空表单 $('#formAdd)是jQuery对象 -> $('#formAdd)[0]是DOM对象
+                            {#console.log($('#formAdd'));#}
+                            {#console.log($('#formAdd')[0]);#}
+                            $('#formAdd')[0].reset();
+                            $('#myModal').modal('hide');
+                            location.reload();
+                        } else {
+                            // 把错误信息显示在对话框中
+                            $.each(res.error, function (name, errorList) {
+                                $("#id_" + name).next().text(errorList[0]);
+                            });
+                        }
+                    }
+                });
+            });
+        }
+    </script>
+{% endblock %}
