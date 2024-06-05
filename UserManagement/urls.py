@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path, re_path
 from django.conf import settings
 from django.views.static import serve
-from app01.views import depart, user, prettynum, admin, account, task, order, chart, upload, city
+from app01.views import depart, user, prettynum, admin, account, task, order, chart, upload, city, record
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -81,4 +81,7 @@ urlpatterns = [
     # 城市列表
     path('city/list/', city.city_list),
     path('city/add/', city.city_add),
+
+    # 记录中心
+    path('record/list/', record.record_list),
 ]

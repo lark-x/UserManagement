@@ -113,3 +113,5 @@ class City(models.Model):
     count = models.IntegerField(verbose_name='人口')
     # 本质上数据库也是CharField
     img = models.FileField(verbose_name="Logo", max_length=128, upload_to="city/")
+
+    """ 账本 """
