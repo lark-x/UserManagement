@@ -14,7 +14,7 @@ class BootStrapModelForm(forms.ModelForm):
                 continue
             if field.widget.attrs:
                 field.widget.attrs["class"] = "form-control"
-                field.widget.attrs["placeholder"] = field.label
+                field.widget.attrs["placeholder"] = '请输入' + field.label
             else:
                 field.widget.attrs = {
                     'class': 'form-control',
@@ -35,7 +35,7 @@ class BootStrapForm(forms.Form):
             #     continue
             if field.widget.attrs:
                 field.widget.attrs["class"] = "form-control"
-                field.widget.attrs["placeholder"] = field.label
+                field.widget.attrs["placeholder"] = '请输入' + field.label
             else:
                 field.widget.attrs = {
                     'class': 'form-control',

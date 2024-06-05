@@ -84,4 +84,8 @@ urlpatterns = [
 
     # 记录中心
     path('record/list/', record.record_list),
+    path('record/add/', record.record_add),
+    path('record/delete/', record.record_delete),
+    path('record/edit/', record.record_edit),
+    path('record/detail/', record.record_detail),
 ]

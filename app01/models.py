@@ -114,4 +114,15 @@ class City(models.Model):
     # 本质上数据库也是CharField
     img = models.FileField(verbose_name="Logo", max_length=128, upload_to="city/")
 
+
+class Record(models.Model):
     """ 账本 """
+    data = models.DateField(verbose_name='记账日期', max_length=64)
+    type_choices = (
+        (1, '支出'),
+        (2, '收入'),
+    )
+    type = models.SmallIntegerField(verbose_name='类型', choices=type_choices, default=1)
+    money = models.DecimalField(verbose_name='记账金额', max_digits=10, decimal_places=2, default=0)
+    state = models.CharField(verbose_name='说明', max_length=64)
+    recorder = models.ForeignKey(verbose_name='记账人', to='Admin', on_delete=models.CASCADE)

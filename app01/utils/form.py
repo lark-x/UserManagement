@@ -210,3 +210,8 @@ class UploadModelForm(BootStrapModelForm):
         fields = '__all__'
 
 
+class RecordModelForm(BootStrapModelForm):
+    class Meta:
+        model = models.Record
+        # fields = '__all__'
+        exclude = ['data', 'recorder']
