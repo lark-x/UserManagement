@@ -26,6 +26,7 @@ def city_list(request):
         }
         if form.is_valid():
             form.save()
+
             redirect('/city/list/')
         return render(request, 'city_list.html', context)
 

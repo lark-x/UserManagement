@@ -215,3 +215,18 @@ class RecordModelForm(BootStrapModelForm):
         model = models.Record
         # fields = '__all__'
         exclude = ['data', 'recorder']
+
+
+class BillModelForm(BootStrapModelForm):
+    class Meta:
+        model = models.Bill
+        fields = '__all__'
+        exclude = ['recorder']
+
+
+class ExcelFileModelForm(BootStrapModelForm):
+    bootstrap_exclude_fields = ['filePath']
+
+    class Meta:
+        model = models.ExcelFile
+        fields = ['filePath']

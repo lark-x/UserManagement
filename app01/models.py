@@ -112,7 +112,7 @@ class City(models.Model):
     name = models.CharField(verbose_name='名称', max_length=32)
     count = models.IntegerField(verbose_name='人口')
     # 本质上数据库也是CharField
-    img = models.FileField(verbose_name="Logo", max_length=128, upload_to="city/")
+    img = models.FileField(verbose_name="Logo", max_length=128, upload_to="cityLogo")
 
 
 class Record(models.Model):
@@ -126,3 +126,19 @@ class Record(models.Model):
     money = models.DecimalField(verbose_name='记账金额', max_digits=10, decimal_places=2, default=0)
     state = models.CharField(verbose_name='说明', max_length=64)
     recorder = models.ForeignKey(verbose_name='记账人', to='Admin', on_delete=models.CASCADE)
+
+
+class Bill(models.Model):
+    """ 账单 """
+    data = models.DateTimeField(verbose_name='交易时间')
+    type = models.CharField(verbose_name='收/支', max_length=64)
+    amount = models.DecimalField(verbose_name='金额', max_digits=10, decimal_places=2, default=0)
+    description = models.CharField(verbose_name='说明', max_length=128)
+    recorder = models.ForeignKey(verbose_name='记账人', to='Admin', on_delete=models.CASCADE)
+
+
+class ExcelFile(models.Model):
+    """ Excel文件 """
+    datetime = models.DateTimeField(verbose_name='上传时间', auto_now_add=True)
+    filePath = models.FileField(verbose_name='Excel文件', upload_to='excel', max_length=128)
+    uploader = models.ForeignKey(verbose_name='上传者', to='Admin', on_delete=models.CASCADE, default=None)

@@ -77,6 +77,7 @@ urlpatterns = [
     path('upload/list/', upload.upload_list),
     path('upload/form/', upload.upload_form),
     path('upload/modelform/', upload.upload_model_form),
+    path('upload/excel/', upload.upload_excel),
 
     # 城市列表
     path('city/list/', city.city_list),
